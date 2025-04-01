@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+    <!--    core-->
+    <string name="home">Home</string>
+    <string name="navigate_to_x">Home</string>
+    <string name="navigate_to_x">Navigate to %1$s</string>
+    <string name="navigate_back">Navigate back</string>
+
+
+</resources>
