@@ -22,6 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.abhiram.databeatassessment.feature_home.util.toFormattedString
+import databeatassessment.composeapp.generated.resources.Res
+import databeatassessment.composeapp.generated.resources.no_description
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
@@ -31,7 +33,7 @@ fun NewsListItem(
     sourceName: String,
     imageUrl: String,
     title: String,
-    description: String,
+    description: String?,
     publishedAt: LocalDateTime?,
     onClick: () -> Unit
 ) {
@@ -75,7 +77,7 @@ fun NewsListItem(
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
-            text = description,
+            text = description ?: stringResource(Res.string.no_description),
             style = MaterialTheme.typography.body1
         )
     }

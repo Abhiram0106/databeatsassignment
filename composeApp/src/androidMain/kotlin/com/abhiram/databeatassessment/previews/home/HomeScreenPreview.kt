@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.abhiram.databeatassessment.core.presentation.theme.AppTheme
 import com.abhiram.databeatassessment.feature_home.presentation.HomeScreen
 import com.abhiram.databeatassessment.feature_home.presentation.components.NewsListItem
+import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
 import kotlinx.datetime.LocalDateTime
 
 @Preview(showBackground = true)
@@ -12,8 +13,8 @@ import kotlinx.datetime.LocalDateTime
 private fun HomeScreenPreview() {
     AppTheme(false) {
         HomeScreen(
-            newsItems = emptyList(),
-            isLoading = false,
+            uiState = HomeUiState(),
+            onUiAction = {},
             onClickArticle = {}
         )
     }

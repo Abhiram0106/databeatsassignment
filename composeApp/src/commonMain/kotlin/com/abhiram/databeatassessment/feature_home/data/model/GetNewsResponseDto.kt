@@ -12,7 +12,7 @@ data class ArticlesDto(
     val source: ArticleSourceDto,
     val urlToImage: String,
     val title: String,
-    val description: String,
+    val description: String?,
     val publishedAt: String,
     val url: String
 )

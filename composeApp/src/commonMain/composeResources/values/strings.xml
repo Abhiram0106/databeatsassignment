@@ -9,6 +9,7 @@
     <!--    home-->
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="no_description">No description</string>
 
 
 </resources>

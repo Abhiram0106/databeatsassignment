@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abhiram.databeatassessment.core.util.UiText
 import com.abhiram.databeatassessment.feature_home.domain.HomeRepository
+import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiAction
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +27,16 @@ class HomeViewModel(
     fun clearSnackBar() {
         _uiState.update {
             it.copy(snackBarMessage = null)
+        }
+    }
+
+    fun onUiAction(action: HomeUiAction) {
+        when (action) {
+            is HomeUiAction.OnQueryChanged -> {
+                _uiState.update {
+                    it.copy(searchQuery = action.query)
+                }
+            }
         }
     }
 
