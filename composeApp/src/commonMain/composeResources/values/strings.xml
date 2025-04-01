@@ -6,5 +6,9 @@
     <string name="navigate_to_x">Navigate to %1$s</string>
     <string name="navigate_back">Navigate back</string>
 
+    <!--    home-->
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
+
 
 </resources>
