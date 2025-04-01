@@ -3,5 +3,9 @@ package com.abhiram.databeatassessment.feature_home.domain
 import com.abhiram.databeatassessment.feature_home.data.model.GetNewsResponseDto
 
 interface HomeService {
-    suspend fun getEverything(): Result<GetNewsResponseDto>
+    suspend fun getTopHeadlines(
+        searchQuery: String,
+        country: String?,
+        category: String?
+    ): Result<GetNewsResponseDto>
 }

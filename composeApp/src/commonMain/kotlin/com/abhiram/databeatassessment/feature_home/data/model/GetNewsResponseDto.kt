@@ -10,7 +10,7 @@ data class GetNewsResponseDto(
 @Serializable
 data class ArticlesDto(
     val source: ArticleSourceDto,
-    val urlToImage: String,
+    val urlToImage: String?,
     val title: String,
     val description: String?,
     val publishedAt: String,

@@ -9,11 +9,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,36 +29,59 @@ import coil3.compose.AsyncImage
 import com.abhiram.databeatassessment.feature_home.util.toFormattedString
 import databeatassessment.composeapp.generated.resources.Res
 import databeatassessment.composeapp.generated.resources.no_description
+import databeatassessment.composeapp.generated.resources.ic_block
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import coil3.compose.SubcomposeAsyncImage
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun NewsListItem(
     modifier: Modifier = Modifier,
     sourceName: String,
-    imageUrl: String,
+    imageUrl: String?,
     title: String,
     description: String?,
     publishedAt: LocalDateTime?,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
+
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(10))
+            .clip(RoundedCornerShape(5))
             .background(MaterialTheme.colors.surface)
-            .padding(horizontal = 6.dp, vertical = 4.dp)
+            .padding(horizontal = 10.dp, vertical = 8.dp)
             .clickable { onClick() },
     ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = title,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.height(128.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(10))
-        )
+        if (imageUrl != null) {
+            SubcomposeAsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                loading = {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colors.onSurface,
+                        modifier = Modifier.size(64.dp)
+                    )
+                },
+                modifier = Modifier.height(192.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(5))
+            )
+        } else {
+            Icon(
+                painter = painterResource(Res.drawable.ic_block),
+                contentDescription = null,
+                modifier = Modifier.height(128.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(5))
+            )
+        }
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -75,7 +103,7 @@ fun NewsListItem(
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.SemiBold
         )
-        Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = description ?: stringResource(Res.string.no_description),
             style = MaterialTheme.typography.body1

@@ -13,6 +13,7 @@
     <string name="search_for_articles">Search for articles</string>
     <string name="top_headlines">Top Headlines</string>
     <string name="search_countries">Search Countries</string>
+    <string name="no_articles_found">No articles found</string>
 
 
 </resources>

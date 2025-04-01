@@ -35,6 +35,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import com.abhiram.databeatassessment.core.util.UiText
 import com.abhiram.databeatassessment.feature_home.domain.NewsCategories
 import com.abhiram.databeatassessment.feature_home.presentation.components.CountryPickerDialog
@@ -44,6 +45,7 @@ import databeatassessment.composeapp.generated.resources.Res
 import databeatassessment.composeapp.generated.resources.search_for_articles
 import databeatassessment.composeapp.generated.resources.ic_search
 import databeatassessment.composeapp.generated.resources.top_headlines
+import databeatassessment.composeapp.generated.resources.no_articles_found
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -163,7 +165,7 @@ fun HomeScreen(
             columns = GridCells.Adaptive(200.dp),
             contentPadding = PaddingValues(vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
             items(
@@ -191,6 +193,17 @@ fun HomeScreen(
                             color = MaterialTheme.colors.onSurface
                         )
                     }
+                }
+            }
+
+            if (!uiState.isLoading && uiState.newsItems.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(Res.string.no_articles_found),
+                        style = MaterialTheme.typography.body1,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
+                    )
                 }
             }
         }

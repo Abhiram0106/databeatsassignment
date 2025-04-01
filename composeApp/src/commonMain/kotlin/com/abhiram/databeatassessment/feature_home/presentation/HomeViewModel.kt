@@ -2,15 +2,26 @@ package com.abhiram.databeatassessment.feature_home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abhiram.databeatassessment.core.util.CountryData
 import com.abhiram.databeatassessment.core.util.UiText
 import com.abhiram.databeatassessment.feature_home.domain.HomeRepository
+import com.abhiram.databeatassessment.feature_home.domain.NewsCategories
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiAction
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
+import com.abhiram.databeatassessment.feature_home.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class HomeViewModel(
     private val homeRepository: HomeRepository,
@@ -21,7 +32,7 @@ class HomeViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        getEverything()
+        listenToQueriesAndFetchNews()
     }
 
     fun clearSnackBar() {
@@ -64,23 +75,52 @@ class HomeViewModel(
         }
     }
 
-    private fun getEverything() = viewModelScope.launch(dispatcher) {
+    @OptIn(FlowPreview::class)
+    private fun listenToQueriesAndFetchNews() {
+        combine(
+            uiState
+                .map { it.searchQuery }
+                .debounce(300.milliseconds),
+            uiState.map { it.selectedCountry },
+            uiState.map { it.selectedCategory }
+        ) { searchQuery, selectedCountry, selectedCategory ->
+            Triple(searchQuery, selectedCountry, selectedCategory)
+        }
+            .distinctUntilChanged()
+            .onEach { (searchQuery, selectedCountry, selectedCategory) ->
+                getTopHeadlines(
+                    searchQuery = searchQuery,
+                    country = selectedCountry,
+                    category = selectedCategory
+                )
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun getTopHeadlines(
+        searchQuery: String,
+        country: CountryData,
+        category: NewsCategories
+    ) = viewModelScope.launch(dispatcher) {
         _uiState.update {
             it.copy(isLoading = true)
         }
 
-        homeRepository.getEverything()
-            .onSuccess { data ->
+        homeRepository.getTopHeadlines(
+            searchQuery = searchQuery,
+            country = country,
+            category = category
+        ).onSuccess { data ->
+            _uiState.update {
+                it.copy(newsItems = data.articles)
+            }
+        }.onFailure { failure ->
+            failure.message?.let { msg ->
                 _uiState.update {
-                    it.copy(newsItems = data.articles)
-                }
-            }.onFailure { failure ->
-                failure.message?.let { msg ->
-                    _uiState.update {
-                        it.copy(snackBarMessage = UiText.DynamicString(msg))
-                    }
+                    it.copy(snackBarMessage = UiText.DynamicString(msg))
                 }
             }
+        }
 
         _uiState.update {
             it.copy(isLoading = false)
