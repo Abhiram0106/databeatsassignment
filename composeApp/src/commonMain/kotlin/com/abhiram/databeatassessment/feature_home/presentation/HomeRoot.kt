@@ -1,11 +1,13 @@
 package com.abhiram.databeatassessment.feature_home.presentation
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.CircularProgressIndicator
@@ -55,7 +57,9 @@ fun HomeScreen(
     Column(modifier = modifier.fillMaxSize()) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(200.dp),
-            contentPadding = PaddingValues(all = 4.dp),
+            contentPadding = PaddingValues(vertical = 10.dp, horizontal = 15.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
             items(
@@ -72,8 +76,12 @@ fun HomeScreen(
             }
 
             if (isLoading) {
-                item {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                item(
+                    span = { GridItemSpan(maxLineSpan) }
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(
                             color = MaterialTheme.colors.onSurface
                         )
