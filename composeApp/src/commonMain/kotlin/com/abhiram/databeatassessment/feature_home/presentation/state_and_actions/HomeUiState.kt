@@ -9,6 +9,7 @@ data class HomeUiState(
     val searchQuery: String = "",
     val selectedCountry: CountryData = CountryData.World,
     val selectedCategory: NewsCategories = NewsCategories.NONE,
+    val showCountryPickerDialog: Boolean = false,
     val newsItems: List<NewsItem> = emptyList(),
     val isLoading: Boolean = false,
     val snackBarMessage: UiText? = null

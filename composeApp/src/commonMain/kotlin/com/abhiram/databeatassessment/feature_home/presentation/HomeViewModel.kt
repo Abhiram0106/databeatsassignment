@@ -37,6 +37,30 @@ class HomeViewModel(
                     it.copy(searchQuery = action.query)
                 }
             }
+
+            is HomeUiAction.OnSelectCategory -> {
+                _uiState.update {
+                    it.copy(selectedCategory = action.category)
+                }
+            }
+
+            HomeUiAction.OnDismissCountryPickerDialog -> {
+                _uiState.update {
+                    it.copy(showCountryPickerDialog = false)
+                }
+            }
+
+            is HomeUiAction.OnSelectCountry -> {
+                _uiState.update {
+                    it.copy(selectedCountry = action.country)
+                }
+            }
+
+            HomeUiAction.OnShowCountryPickerDialog -> {
+                _uiState.update {
+                    it.copy(showCountryPickerDialog = true)
+                }
+            }
         }
     }
 

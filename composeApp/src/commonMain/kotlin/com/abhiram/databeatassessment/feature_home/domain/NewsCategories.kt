@@ -1,7 +1,7 @@
 package com.abhiram.databeatassessment.feature_home.domain
 
 enum class NewsCategories(val displayText: String, val query: String?) {
-    NONE("none", null),
+    NONE("None", null),
     BUSINESS("Business", "business"),
     ENTERTAINMENT("Entertainment", "entertainment"),
     GENERAL("General", "general"),

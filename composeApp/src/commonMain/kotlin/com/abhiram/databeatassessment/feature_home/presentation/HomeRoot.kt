@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.ImeAction
 import com.abhiram.databeatassessment.core.util.UiText
 import com.abhiram.databeatassessment.feature_home.domain.NewsCategories
+import com.abhiram.databeatassessment.feature_home.presentation.components.CountryPickerDialog
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiAction
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
 import databeatassessment.composeapp.generated.resources.Res
@@ -67,6 +68,13 @@ fun HomeRoot(
         onClickArticle = {}
     )
 
+    if (uiState.showCountryPickerDialog) {
+        CountryPickerDialog(
+            onSelect = { viewModel.onUiAction(HomeUiAction.OnSelectCountry(it)) },
+            onDismiss = { viewModel.onUiAction(HomeUiAction.OnDismissCountryPickerDialog) }
+        )
+    }
+
 }
 
 @Composable
@@ -80,6 +88,7 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize()
             .padding(horizontal = 15.dp)
     ) {
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = stringResource(Res.string.top_headlines),
@@ -93,10 +102,16 @@ fun HomeScreen(
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = "${uiState.selectedCountry.countryFlag} ${uiState.selectedCountry.displayText}",
-                style = MaterialTheme.typography.body1
-            )
+
+            TextButton(
+                onClick = { onUiAction(HomeUiAction.OnShowCountryPickerDialog) },
+                modifier = Modifier.padding(horizontal = 4.dp)
+            ) {
+                Text(
+                    text = "${uiState.selectedCountry.countryFlag} ${uiState.selectedCountry.displayText}",
+                    style = MaterialTheme.typography.body1
+                )
+            }
             Row(
                 modifier = Modifier.weight(1f)
                     .horizontalScroll(rememberScrollState())
@@ -138,9 +153,10 @@ fun HomeScreen(
                     tint = MaterialTheme.colors.onSurface
                 )
             },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             singleLine = true,
             shape = CircleShape,
+            modifier = Modifier.fillMaxWidth()
         )
 
         LazyVerticalGrid(
