@@ -1,6 +1,8 @@
 package com.abhiram.databeatassessment.previews.home
 
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.abhiram.databeatassessment.core.presentation.theme.AppTheme
 import com.abhiram.databeatassessment.feature_home.presentation.HomeScreen

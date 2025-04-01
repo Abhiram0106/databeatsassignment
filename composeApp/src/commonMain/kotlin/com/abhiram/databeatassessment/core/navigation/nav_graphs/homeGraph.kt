@@ -18,7 +18,7 @@ fun NavGraphBuilder.homeGraph(
 
         composable<Screens.Home> {
             HomeRoot(
-
+                onShowSnackBar = onShowSnackBar
             )
         }
     }
