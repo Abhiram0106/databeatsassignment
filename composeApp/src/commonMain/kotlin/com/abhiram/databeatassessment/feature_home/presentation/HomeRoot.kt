@@ -1,16 +1,22 @@
 package com.abhiram.databeatassessment.feature_home.presentation
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.CircularProgressIndicator
@@ -18,6 +24,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -29,11 +36,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.ImeAction
 import com.abhiram.databeatassessment.core.util.UiText
+import com.abhiram.databeatassessment.feature_home.domain.NewsCategories
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiAction
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
 import databeatassessment.composeapp.generated.resources.Res
 import databeatassessment.composeapp.generated.resources.search_for_articles
 import databeatassessment.composeapp.generated.resources.ic_search
+import databeatassessment.composeapp.generated.resources.top_headlines
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -71,6 +80,47 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize()
             .padding(horizontal = 15.dp)
     ) {
+
+        Text(
+            text = stringResource(Res.string.top_headlines),
+            style = MaterialTheme.typography.h6,
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "${uiState.selectedCountry.countryFlag} ${uiState.selectedCountry.displayText}",
+                style = MaterialTheme.typography.body1
+            )
+            Row(
+                modifier = Modifier.weight(1f)
+                    .horizontalScroll(rememberScrollState())
+            ) {
+                NewsCategories.entries.forEach {
+                    TextButton(
+                        onClick = { onUiAction(HomeUiAction.OnSelectCategory(it)) },
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Text(
+                            text = it.displayText,
+                            style = MaterialTheme.typography.body2,
+                            color = if (uiState.selectedCategory == it) {
+                                MaterialTheme.colors.primary
+                            } else {
+                                MaterialTheme.colors.onSurface
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
             value = uiState.searchQuery,
