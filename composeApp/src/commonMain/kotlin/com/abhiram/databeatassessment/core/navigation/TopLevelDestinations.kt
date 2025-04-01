@@ -2,6 +2,7 @@ package com.abhiram.databeatassessment.core.navigation
 
 import databeatassessment.composeapp.generated.resources.Res
 import databeatassessment.composeapp.generated.resources.home
+import databeatassessment.composeapp.generated.resources.ic_home
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
@@ -14,7 +15,7 @@ enum class TopLevelDestination(
     val baseRoute: @Serializable KClass<*>
 ) {
     Home(
-        icon = Res.drawable.ic_rounded_home,
+        icon = Res.drawable.ic_home,
         displayText = Res.string.home,
         route = Screens.Home::class,
         baseRoute = Graphs.Home::class
