@@ -1,6 +1,7 @@
 package com.abhiram.databeatassessment.core.di
 
 import com.abhiram.databeatassessment.core.util.Endpoint
+import com.abhiram.databeatassessment.feature_home.util.STORE
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpTimeout
@@ -36,7 +37,7 @@ val httpClientModule = module {
             install(Auth) {
                 bearer {
                     loadTokens {
-                        val token = ""
+                        val token = STORE.API_KEY
                         BearerTokens(
                             accessToken = token,
                             refreshToken = null
@@ -46,7 +47,7 @@ val httpClientModule = module {
             }
         }.apply {
             plugin(HttpSend).intercept { req ->
-                val token = ""
+                val token = STORE.API_KEY
                 val modifiedRequest = req.apply {
                     headers[HttpHeaders.Authorization] = "Bearer $token"
                 }
