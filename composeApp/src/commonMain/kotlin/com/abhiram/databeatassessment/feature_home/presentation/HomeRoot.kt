@@ -11,9 +11,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -23,9 +27,15 @@ import com.abhiram.databeatassessment.feature_home.presentation.components.NewsL
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.input.ImeAction
 import com.abhiram.databeatassessment.core.util.UiText
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiAction
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
+import databeatassessment.composeapp.generated.resources.Res
+import databeatassessment.composeapp.generated.resources.search_for_articles
+import databeatassessment.composeapp.generated.resources.ic_search
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HomeRoot(
@@ -64,7 +74,23 @@ fun HomeScreen(
 
         OutlinedTextField(
             value = uiState.searchQuery,
-            onValueChange = { onUiAction(HomeUiAction.OnQueryChanged(it)) }
+            onValueChange = { onUiAction(HomeUiAction.OnQueryChanged(it)) },
+            label = {
+                Text(
+                    text = stringResource(Res.string.search_for_articles),
+                    style = MaterialTheme.typography.body1,
+                )
+            },
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_search),
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onSurface
+                )
+            },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            singleLine = true,
+            shape = CircleShape,
         )
 
         LazyVerticalGrid(
