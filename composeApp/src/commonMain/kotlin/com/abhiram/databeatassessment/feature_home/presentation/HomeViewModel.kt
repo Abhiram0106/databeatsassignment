@@ -1,12 +1,17 @@
 package com.abhiram.databeatassessment.feature_home.presentation
 
 import androidx.lifecycle.ViewModel
+import com.abhiram.databeatassessment.feature_home.domain.HomeRepository
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class HomeViewModel(): ViewModel() {
+class HomeViewModel(
+    private val homeRepository: HomeRepository,
+    private val dispatcher: CoroutineDispatcher
+): ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
