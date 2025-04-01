@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.abhiram.databeatassessment.feature_home.util.toFormattedString
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NewsListItem(
@@ -31,7 +32,7 @@ fun NewsListItem(
     imageUrl: String,
     title: String,
     description: String,
-    publishedAt: LocalDateTime,
+    publishedAt: LocalDateTime?,
     onClick: () -> Unit
 ) {
     Column(
@@ -62,7 +63,7 @@ fun NewsListItem(
                 style = MaterialTheme.typography.body1
             )
             Text(
-                text = publishedAt.toFormattedString(),
+                text = publishedAt?.toFormattedString() ?: "",
                 style = MaterialTheme.typography.body1
             )
         }

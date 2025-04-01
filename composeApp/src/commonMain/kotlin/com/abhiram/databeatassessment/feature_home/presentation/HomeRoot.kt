@@ -15,7 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abhiram.databeatassessment.feature_home.domain.NewsItem
+import com.abhiram.databeatassessment.feature_home.domain.model.NewsItem
 import com.abhiram.databeatassessment.feature_home.presentation.components.NewsListItem
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.runtime.getValue

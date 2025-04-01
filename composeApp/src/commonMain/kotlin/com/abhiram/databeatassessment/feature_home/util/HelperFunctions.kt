@@ -31,3 +31,12 @@ fun LocalDateTime.toFormattedString(
 
     return this.format(formatter)
 }
+
+fun stringToLocalDate(dateTimeString: String): LocalDateTime? {
+    return try {
+        LocalDateTime.parse(dateTimeString.dropLast(1)) // drop the Z in "2025-03-07T17:31:00Z"
+    } catch (e: IllegalArgumentException) {
+        e.printStackTrace()
+        null
+    }
+}
