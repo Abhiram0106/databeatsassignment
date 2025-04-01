@@ -14,7 +14,9 @@ class HomeServiceImpl(
     override suspend fun getTopHeadlines(
         searchQuery: String,
         country: String?,
-        category: String?
+        category: String?,
+        pageSize: Int,
+        pageNumber: Int
     ): Result<GetNewsResponseDto> {
         return httpClient.handleApi {
             url {
@@ -29,6 +31,8 @@ class HomeServiceImpl(
                     category?.let {
                         append(name = "category", value = it)
                     }
+                    append(name = "pageSize", value = pageSize.toString())
+                    append(name = "page", value = pageNumber.toString())
                 }
             }
             method = HttpMethod.Get

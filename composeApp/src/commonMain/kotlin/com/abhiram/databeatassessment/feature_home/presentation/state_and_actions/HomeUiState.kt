@@ -3,14 +3,11 @@ package com.abhiram.databeatassessment.feature_home.presentation.state_and_actio
 import com.abhiram.databeatassessment.core.util.CountryData
 import com.abhiram.databeatassessment.core.util.UiText
 import com.abhiram.databeatassessment.feature_home.domain.NewsCategories
-import com.abhiram.databeatassessment.feature_home.domain.model.NewsItem
 
 data class HomeUiState(
     val searchQuery: String = "",
     val selectedCountry: CountryData = CountryData.World,
     val selectedCategory: NewsCategories = NewsCategories.BUSINESS,
     val showCountryPickerDialog: Boolean = false,
-    val newsItems: List<NewsItem> = emptyList(),
-    val isLoading: Boolean = false,
     val snackBarMessage: UiText? = null
 )

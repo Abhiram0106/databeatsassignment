@@ -6,6 +6,8 @@ interface HomeService {
     suspend fun getTopHeadlines(
         searchQuery: String,
         country: String?,
-        category: String?
+        category: String?,
+        pageSize: Int,
+        pageNumber: Int
     ): Result<GetNewsResponseDto>
 }

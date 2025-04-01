@@ -14,12 +14,16 @@ class HomeRepositoryImpl(
     override suspend fun getTopHeadlines(
         searchQuery: String,
         country: CountryData,
-        category: NewsCategories
+        category: NewsCategories,
+        pageSize: Int,
+        pageNumber: Int
     ): Result<GetNewsResponse> {
         return homeService.getTopHeadlines(
             searchQuery = searchQuery,
             country = country.countryCodeAlpha2,
-            category = category.query
+            category = category.query,
+            pageSize = pageSize,
+            pageNumber = pageNumber
         ).toGetNewsResponse()
     }
 }

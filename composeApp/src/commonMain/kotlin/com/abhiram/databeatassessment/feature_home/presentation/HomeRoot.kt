@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -29,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abhiram.databeatassessment.feature_home.presentation.components.NewsListItem
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.runtime.getValue
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import com.abhiram.databeatassessment.core.util.UiText
 import com.abhiram.databeatassessment.feature_home.domain.NewsCategories
+import com.abhiram.databeatassessment.feature_home.domain.model.NewsItem
 import com.abhiram.databeatassessment.feature_home.presentation.components.CountryPickerDialog
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiAction
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
@@ -59,6 +61,7 @@ fun HomeRoot(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val topHeadlinesFlow = viewModel.topHeadlinesFlow.collectAsLazyPagingItems()
 
     LaunchedEffect(uiState.snackBarMessage) {
         if (uiState.snackBarMessage != null) {
@@ -69,6 +72,7 @@ fun HomeRoot(
 
     HomeScreen(
         uiState = uiState,
+        newsItems = topHeadlinesFlow,
         onUiAction = viewModel::onUiAction,
         onShowSnackBar = onShowSnackBar
     )
@@ -86,6 +90,7 @@ fun HomeRoot(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeUiState,
+    newsItems: LazyPagingItems<NewsItem>,
     onUiAction: (HomeUiAction) -> Unit,
     onShowSnackBar: suspend (message: UiText, actionLabel: UiText?) -> Boolean,
 ) {
@@ -175,29 +180,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
-            items(
-                items = uiState.newsItems,
-            ) {
-                NewsListItem(
-                    sourceName = it.sourceName,
-                    imageUrl = it.imageUrl,
-                    title = it.title,
-                    description = it.description,
-                    publishedAt = it.publishedAt,
-                    articleUrl = it.articleUrl,
-                    activityNotFound = {
-                        scope.launch {
-                            onShowSnackBar(
-                                UiText.StringResourceId(Res.string.suitable_app_not_found),
-                                null
-                            )
-                        }
-                    },
-                    modifier = Modifier
-                )
-            }
-
-            if (uiState.isLoading) {
+            if (newsItems.loadState.refresh is LoadState.Loading) {
                 item(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
@@ -205,21 +188,60 @@ fun HomeScreen(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colors.onSurface
-                        )
+                        CircularProgressIndicator(color = MaterialTheme.colors.onBackground)
                     }
                 }
             }
 
-            if (!uiState.isLoading && uiState.newsItems.isEmpty()) {
-                item {
+            items(
+                count = newsItems.itemCount,
+            ) {
+                newsItems[it]?.let { item ->
+                    NewsListItem(
+                        sourceName = item.sourceName,
+                        imageUrl = item.imageUrl,
+                        title = item.title,
+                        description = item.description,
+                        publishedAt = item.publishedAt,
+                        articleUrl = item.articleUrl,
+                        activityNotFound = {
+                            scope.launch {
+                                onShowSnackBar(
+                                    UiText.StringResourceId(Res.string.suitable_app_not_found),
+                                    null
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                    )
+                }
+            }
+
+            if ((newsItems.loadState.refresh !is LoadState.Loading) &&
+                (newsItems.loadState.append !is LoadState.Loading) &&
+                newsItems.itemCount == 0
+            ) {
+                item(
+                    span = { GridItemSpan(maxLineSpan) }
+                ) {
                     Text(
                         text = stringResource(Res.string.no_articles_found),
                         style = MaterialTheme.typography.body1,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
                     )
+                }
+            }
+
+
+            if (newsItems.loadState.append is LoadState.Loading) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colors.onBackground)
+                    }
                 }
             }
         }

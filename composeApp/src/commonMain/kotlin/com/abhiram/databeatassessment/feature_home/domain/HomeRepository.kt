@@ -7,6 +7,8 @@ interface HomeRepository {
     suspend fun getTopHeadlines(
         searchQuery: String,
         country: CountryData,
-        category: NewsCategories
+        category: NewsCategories,
+        pageSize: Int,
+        pageNumber: Int
     ): Result<GetNewsResponse>
 }

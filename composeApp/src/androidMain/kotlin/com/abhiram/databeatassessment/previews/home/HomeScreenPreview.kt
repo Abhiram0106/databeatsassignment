@@ -9,17 +9,18 @@ import com.abhiram.databeatassessment.feature_home.presentation.components.NewsL
 import com.abhiram.databeatassessment.feature_home.presentation.state_and_actions.HomeUiState
 import kotlinx.datetime.LocalDateTime
 
-@Preview(showBackground = true)
-@Composable
-private fun HomeScreenPreview() {
-    AppTheme(false) {
-        HomeScreen(
-            uiState = HomeUiState(),
-            onUiAction = {},
-            onShowSnackBar = {_,_ -> false}
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun HomeScreenPreview() {
+//    AppTheme(false) {
+//        HomeScreen(
+//            uiState = HomeUiState(),
+//            newsItems = em,
+//            onUiAction = {},
+//            onShowSnackBar = {_,_ -> false}
+//        )
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
