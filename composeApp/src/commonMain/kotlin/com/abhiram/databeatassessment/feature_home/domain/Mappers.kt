@@ -14,7 +14,10 @@ fun ArticlesDto.toDomain(): NewsItem = NewsItem(
     publishedAt = stringToLocalDate(publishedAt),
     articleUrl = url
 )
+fun List<ArticlesDto>.toDomain(): List<NewsItem> = map { it.toDomain() }
 
 fun GetNewsResponseDto.toDomain(): GetNewsResponse = GetNewsResponse(
-    articles = articles
+    articles = articles.toDomain()
 )
+
+fun Result<GetNewsResponseDto>.toGetNewsResponse(): Result<GetNewsResponse> = map { it.toDomain() }
