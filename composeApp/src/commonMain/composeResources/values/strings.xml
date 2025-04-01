@@ -14,6 +14,7 @@
     <string name="top_headlines">Top Headlines</string>
     <string name="search_countries">Search Countries</string>
     <string name="no_articles_found">No articles found</string>
+    <string name="suitable_app_not_found">Suitable app not found</string>
 
 
 </resources>

@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abhiram.databeatassessment.feature_home.presentation.components.NewsListItem
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -46,6 +47,8 @@ import databeatassessment.composeapp.generated.resources.search_for_articles
 import databeatassessment.composeapp.generated.resources.ic_search
 import databeatassessment.composeapp.generated.resources.top_headlines
 import databeatassessment.composeapp.generated.resources.no_articles_found
+import databeatassessment.composeapp.generated.resources.suitable_app_not_found
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -67,7 +70,7 @@ fun HomeRoot(
     HomeScreen(
         uiState = uiState,
         onUiAction = viewModel::onUiAction,
-        onClickArticle = {}
+        onShowSnackBar = onShowSnackBar
     )
 
     if (uiState.showCountryPickerDialog) {
@@ -84,8 +87,11 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeUiState,
     onUiAction: (HomeUiAction) -> Unit,
-    onClickArticle: (articleUrl: String) -> Unit
+    onShowSnackBar: suspend (message: UiText, actionLabel: UiText?) -> Boolean,
 ) {
+
+    val scope = rememberCoroutineScope()
+
     Column(
         modifier = modifier.fillMaxSize()
             .padding(horizontal = 15.dp)
@@ -161,9 +167,10 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
+        Spacer(modifier = Modifier.height(10.dp))
+
         LazyVerticalGrid(
             columns = GridCells.Adaptive(200.dp),
-            contentPadding = PaddingValues(vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth(),
@@ -177,7 +184,16 @@ fun HomeScreen(
                     title = it.title,
                     description = it.description,
                     publishedAt = it.publishedAt,
-                    onClick = { onClickArticle(it.articleUrl) }
+                    articleUrl = it.articleUrl,
+                    activityNotFound = {
+                        scope.launch {
+                            onShowSnackBar(
+                                UiText.StringResourceId(Res.string.suitable_app_not_found),
+                                null
+                            )
+                        }
+                    },
+                    modifier = Modifier
                 )
             }
 
