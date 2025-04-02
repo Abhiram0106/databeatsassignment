@@ -175,8 +175,8 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(200.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            columns = GridCells.Adaptive(300.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
