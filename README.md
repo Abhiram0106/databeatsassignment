@@ -42,6 +42,73 @@ The project is organized into the following modules:
   - Implements networking with Ktor.
   - Implements dependency with Koin.
   - Includes `commonTest` for unit tests.
+```
+commonMain/kotlin/com/abhiram/databeatassessment
+├── core
+│   ├── data
+│   │   └── model
+│   │       └── NewsErrorResponse.kt
+│   ├── di
+│   │   ├── DispatcherModule.kt
+│   │   ├── HttpClientModule.kt
+│   │   └── InitKoin.kt
+│   ├── navigation
+│   │   ├── AppNavHost.kt
+│   │   ├── nav_graphs
+│   │   │   └── homeGraph.kt
+│   │   ├── Screens.kt
+│   │   └── TopLevelDestinations.kt
+│   ├── presentation
+│   │   ├── data_beat_assessment_app
+│   │   │   ├── App.kt
+│   │   │   └── AppState.kt
+│   │   └── theme
+│   │       ├── Color.kt
+│   │       └── Theme.kt
+│   └── util
+│       ├── CountryData.kt
+│       ├── DiDispatchers.kt
+│       ├── Endpoint.kt
+│       ├── handleApi.kt
+│       ├── Log.kt
+│       ├── MyExceptions.kt
+│       └── UiText.kt
+├── feature_home
+│   ├── data
+│   │   ├── HomeRepositoryImpl.kt
+│   │   ├── HomeServiceImpl.kt
+│   │   └── model
+│   │       └── GetNewsResponseDto.kt
+│   ├── di
+│   │   └── HomeModules.kt
+│   ├── domain
+│   │   ├── HomeRepository.kt
+│   │   ├── HomeService.kt
+│   │   ├── Mappers.kt
+│   │   ├── model
+│   │   │   ├── GetNewsResponse.kt
+│   │   │   └── NewsItem.kt
+│   │   ├── NewsCategories.kt
+│   │   └── TopHeadlinesPager.kt
+│   ├── presentation
+│   │   ├── components
+│   │   │   ├── CountryPickerDialog.kt
+│   │   │   └── NewsListItem.kt
+│   │   ├── HomeRoot.kt
+│   │   ├── HomeViewModel.kt
+│   │   └── state_and_actions
+│   │       ├── HomeUiAction.kt
+│   │       └── HomeUiState.kt
+│   └── util
+│       ├── HelperFunctions.kt
+│       └── STORE.kt
+├── Greeting.kt
+└── Platform.kt
+
+commonTest/kotlin/com/abhiram/databeatassessment
+├── HelperFunctionsTest.kt
+└── MappersTest.kt
+```
 
 ## Core Components
 
