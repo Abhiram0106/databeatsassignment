@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import com.abhiram.databeatassessment.feature_home.util.toFormattedString
 import databeatassessment.composeapp.generated.resources.Res
+import databeatassessment.composeapp.generated.resources.am
 import databeatassessment.composeapp.generated.resources.ic_block
 import databeatassessment.composeapp.generated.resources.no_description
+import databeatassessment.composeapp.generated.resources.pm
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -97,7 +99,10 @@ actual fun NewsListItem(
                 style = MaterialTheme.typography.body1
             )
             Text(
-                text = publishedAt?.toFormattedString() ?: "",
+                text = publishedAt?.toFormattedString(
+                    am = stringResource(Res.string.am),
+                    pm = stringResource(Res.string.pm)
+                ) ?: "",
                 style = MaterialTheme.typography.body1
             )
         }

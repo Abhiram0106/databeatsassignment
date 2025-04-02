@@ -30,11 +30,7 @@ import org.jetbrains.compose.resources.stringResource
  * // formattedStringCustom will be "15 November 2023, 03:30 Evening"
  * ```
  */
-@Composable
-fun LocalDateTime.toFormattedString(
-    am: String = stringResource(Res.string.am),
-    pm: String = stringResource(Res.string.pm)
-): String {
+fun LocalDateTime.toFormattedString(am: String, pm: String): String {
     val formatter = LocalDateTime.Format {
         dayOfMonth()
         char(' ')

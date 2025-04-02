@@ -34,6 +34,9 @@ import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import androidx.core.net.toUri
+import databeatassessment.composeapp.generated.resources.am
+import databeatassessment.composeapp.generated.resources.pm
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 actual fun NewsListItem(
@@ -80,7 +83,8 @@ actual fun NewsListItem(
                         modifier = Modifier.size(64.dp)
                     )
                 },
-                modifier = Modifier.height(192.dp)
+                modifier = Modifier
+                    .height(192.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(5))
             )
@@ -88,7 +92,8 @@ actual fun NewsListItem(
             Icon(
                 painter = painterResource(Res.drawable.ic_block),
                 contentDescription = null,
-                modifier = Modifier.height(128.dp)
+                modifier = Modifier
+                    .height(128.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(5))
             )
@@ -106,7 +111,10 @@ actual fun NewsListItem(
                 style = MaterialTheme.typography.body1
             )
             Text(
-                text = publishedAt?.toFormattedString() ?: "",
+                text = publishedAt?.toFormattedString(
+                    am = stringResource(Res.string.am),
+                    pm = stringResource(Res.string.pm)
+                ) ?: "",
                 style = MaterialTheme.typography.body1
             )
         }
