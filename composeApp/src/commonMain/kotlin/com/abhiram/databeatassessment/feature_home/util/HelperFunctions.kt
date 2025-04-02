@@ -10,6 +10,26 @@ import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.char
 import org.jetbrains.compose.resources.stringResource
 
+/**
+ * Formats a [LocalDateTime] object into a human-readable string.
+ *
+ * The output string will follow the format: "DayOfMonth MonthName Year, Hour:Minute AM/PM".
+ * For example: "15 November 2023, 03:30 PM".
+ *
+ * @param am The string to use for the AM marker. Defaults to the localized "am" string resource.
+ * @param pm The string to use for the PM marker. Defaults to the localized "pm" string resource.
+ * @return A formatted string representation of the [LocalDateTime].
+ *
+ * Example Usage:
+ * ```kotlin
+ * val dateTime = LocalDateTime.of(2023, 11, 15, 15, 30)
+ * val formattedString = dateTime.toFormattedString()
+ * // formattedString will be "15 November 2023, 03:30 PM" (assuming default "am" and "pm" resources)
+ *
+ * val formattedStringCustom = dateTime.toFormattedString(am = "Morning", pm = "Evening")
+ * // formattedStringCustom will be "15 November 2023, 03:30 Evening"
+ * ```
+ */
 @Composable
 fun LocalDateTime.toFormattedString(
     am: String = stringResource(Res.string.am),
