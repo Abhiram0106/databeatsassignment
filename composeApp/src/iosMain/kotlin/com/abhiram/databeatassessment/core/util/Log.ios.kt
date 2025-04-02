@@ -1,5 +1,6 @@
-package com.abhiram.databeatassessment.feature_home.util
+package com.abhiram.databeatassessment.core.util
 
+import com.abhiram.databeatassessment.core.util.Log
 import platform.Foundation.NSLog
 
 actual fun log(

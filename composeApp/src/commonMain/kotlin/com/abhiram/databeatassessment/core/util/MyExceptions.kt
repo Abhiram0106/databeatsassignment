@@ -1,4 +1,4 @@
-package com.abhiram.databeatassessment.feature_home.util
+package com.abhiram.databeatassessment.core.util
 
 class UnableToReachServerException(msg: String = "Unable to reach the server") : Exception(msg)
 

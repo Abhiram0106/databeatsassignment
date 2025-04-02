@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.abhiram.databeatassessment.core.util.CountryData
 import com.abhiram.databeatassessment.feature_home.domain.model.NewsItem
-import com.abhiram.databeatassessment.feature_home.util.UnknownPagingException
+import com.abhiram.databeatassessment.core.util.UnknownPagingException
 
 class TopHeadlinesPagingSource(
     private val query: String,

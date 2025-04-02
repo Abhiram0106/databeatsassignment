@@ -1,4 +1,4 @@
-package com.abhiram.databeatassessment.feature_home.util
+package com.abhiram.databeatassessment.core.util
 
 import com.abhiram.databeatassessment.core.data.model.NewsErrorResponse
 import io.ktor.client.HttpClient

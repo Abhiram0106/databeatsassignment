@@ -1,4 +1,4 @@
-package com.abhiram.databeatassessment.feature_home.util
+package com.abhiram.databeatassessment.core.util
 
 import platform.Foundation.NSError
 import platform.Foundation.NSURLErrorCannotFindHost

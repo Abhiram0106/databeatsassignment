@@ -1,4 +1,4 @@
-package com.abhiram.databeatassessment.feature_home.util
+package com.abhiram.databeatassessment.core.util
 
 sealed class Log(loc: String, msg: String) {
 
