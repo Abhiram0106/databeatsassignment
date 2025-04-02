@@ -20,6 +20,7 @@ DataBeatAssessment is a Kotlin Multiplatform (KMP) project designed to fetch and
 
 ## Features
 
+- **Reactive UI using coroutines**
 - **News Article Fetching:** Fetches news articles from a remote API.
 - **Data Mapping:** Efficiently maps data transfer objects (DTOs) from the API response to domain models.
 - **UI Components:** Provides reusable UI components.
@@ -74,3 +75,13 @@ The project is organized into the following modules:
 
 -  **`commonTest`:**
   - Contains the test cases `HelperFunctionsTest` and `MappersTest`
+
+
+
+https://github.com/user-attachments/assets/eceb565f-1a44-4c4c-9d8f-abc5f5f0f24d
+
+
+
+https://github.com/user-attachments/assets/7351b23b-2f47-4bf6-8d20-311ad9a74572
+
+
